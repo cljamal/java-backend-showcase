@@ -2,7 +2,7 @@ package com.sultanov.present_project.features.users.mappers;
 
 import com.sultanov.present_project.core.abstractions.AbstractModelMapper;
 import com.sultanov.present_project.features.users.actions.CreateUserAction;
-import com.sultanov.present_project.features.users.actions.LocationActions;
+import com.sultanov.present_project.core.actions.LocationActions;
 import com.sultanov.present_project.features.users.dto.UserIndexResource;
 import com.sultanov.present_project.features.users.dto.UserShowResource;
 import com.sultanov.present_project.features.users.dto.UserStoreResource;

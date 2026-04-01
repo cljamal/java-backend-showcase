@@ -7,7 +7,7 @@ import com.sultanov.present_project.features.cities.dto.CityShowResource;
 import com.sultanov.present_project.features.cities.dto.CityStoreResource;
 import com.sultanov.present_project.features.cities.models.City;
 import com.sultanov.present_project.features.cities.requests.CityCreateRequest;
-import com.sultanov.present_project.features.users.actions.LocationActions;
+import com.sultanov.present_project.core.actions.LocationActions;
 import org.springframework.stereotype.Component;
 
 @Component

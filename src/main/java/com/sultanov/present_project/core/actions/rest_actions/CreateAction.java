@@ -1,4 +1,4 @@
-package com.sultanov.present_project.core.actions;
+package com.sultanov.present_project.core.actions.rest_actions;
 
 import jakarta.transaction.Transactional;
 import java.util.function.Function;

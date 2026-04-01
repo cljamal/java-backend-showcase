@@ -20,7 +20,10 @@ src/main/java/com/sultanov/present_project/
 ├── configs/              # Security & Web configuration
 ├── core/
 │   ├── abstractions/     # Generic base classes (Model, DTO, Repository, Controller, Mapper)
-│   ├── actions/          # Reusable action components (Create, Index, Show)
+│   ├── actions/
+│   │   ├── rest_actions/ # Reusable REST actions (Create, Index, Show)
+│   │   ├── LocationActions.java
+│   │   └── PasswordActions.java
 │   ├── exceptions/       # Global exception handling
 │   └── utils/            # JsonResponse, PageResource
 └── features/
@@ -43,11 +46,16 @@ src/main/java/com/sultanov/present_project/
 
 Instead of traditional service classes, the project uses **single-responsibility action components**:
 
+**REST Actions** (`core/actions/rest_actions/`):
 - **`CreateAction<E, R>`** — Generic transactional entity creation
 - **`IndexAction<E, R>`** — Paginated list retrieval (read-only)
 - **`ShowAction<E, R>`** — Single entity retrieval by ID
 
-Each feature extends these with domain-specific logic (e.g., `CreateUserAction` handles password encoding, phone normalization, and location validation).
+**Shared Actions** (`core/actions/`):
+- **`PasswordActions`** — BCrypt password encoding and matching
+- **`LocationActions`** — City/Region validation and retrieval
+
+Each feature extends REST actions with domain-specific logic (e.g., `CreateUserAction` handles password encoding, phone normalization, and location validation).
 
 ## API Endpoints
 

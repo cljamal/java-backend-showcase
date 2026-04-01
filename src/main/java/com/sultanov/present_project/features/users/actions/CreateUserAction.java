@@ -1,5 +1,7 @@
 package com.sultanov.present_project.features.users.actions;
 
+import com.sultanov.present_project.core.actions.LocationActions;
+import com.sultanov.present_project.core.actions.PasswordActions;
 import com.sultanov.present_project.features.regions.models.Region;
 import com.sultanov.present_project.features.users.models.User;
 import com.sultanov.present_project.features.users.repositories.UserRepository;

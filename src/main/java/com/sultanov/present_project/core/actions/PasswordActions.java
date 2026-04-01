@@ -1,4 +1,4 @@
-package com.sultanov.present_project.features.users.actions;
+package com.sultanov.present_project.core.actions;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

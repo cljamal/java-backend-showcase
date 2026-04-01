@@ -1,9 +1,9 @@
 package com.sultanov.present_project.features.cities;
 
 import com.sultanov.present_project.core.abstractions.AbstractController;
-import com.sultanov.present_project.core.actions.CreateAction;
-import com.sultanov.present_project.core.actions.IndexAction;
-import com.sultanov.present_project.core.actions.ShowAction;
+import com.sultanov.present_project.core.actions.rest_actions.CreateAction;
+import com.sultanov.present_project.core.actions.rest_actions.IndexAction;
+import com.sultanov.present_project.core.actions.rest_actions.ShowAction;
 import com.sultanov.present_project.core.exceptions.ResourceNotFoundException;
 import com.sultanov.present_project.core.utils.PageResource;
 import com.sultanov.present_project.features.cities.dto.CityIndexResource;

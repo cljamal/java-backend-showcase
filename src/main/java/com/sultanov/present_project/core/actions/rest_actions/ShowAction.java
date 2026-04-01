@@ -1,4 +1,4 @@
-package com.sultanov.present_project.core.actions;
+package com.sultanov.present_project.core.actions.rest_actions;
 
 import java.util.Map;
 import lombok.NonNull;

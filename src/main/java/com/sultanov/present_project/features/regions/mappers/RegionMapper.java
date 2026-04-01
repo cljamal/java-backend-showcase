@@ -7,7 +7,7 @@ import com.sultanov.present_project.features.regions.dto.RegionShowResource;
 import com.sultanov.present_project.features.regions.dto.RegionStoreResource;
 import com.sultanov.present_project.features.regions.models.Region;
 import com.sultanov.present_project.features.regions.requests.RegionCreateRequest;
-import com.sultanov.present_project.features.users.actions.LocationActions;
+import com.sultanov.present_project.core.actions.LocationActions;
 import org.springframework.stereotype.Component;
 
 @Component

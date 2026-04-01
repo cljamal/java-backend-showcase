@@ -1,4 +1,4 @@
-package com.sultanov.present_project.core.actions;
+package com.sultanov.present_project.core.actions.rest_actions;
 
 import com.sultanov.present_project.core.utils.PageResource;
 import org.springframework.data.domain.Page;

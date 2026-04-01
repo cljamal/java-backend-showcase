@@ -1,4 +1,4 @@
-package com.sultanov.present_project.features.users.actions;
+package com.sultanov.present_project.core.actions;
 
 import com.sultanov.present_project.features.cities.dto.CityIndexResource;
 import com.sultanov.present_project.features.cities.models.City;
