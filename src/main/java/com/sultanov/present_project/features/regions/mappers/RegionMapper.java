@@ -1,18 +1,17 @@
 package com.sultanov.present_project.features.regions.mappers;
 
+import com.sultanov.present_project.core.abstractions.AbstractDTO;
 import com.sultanov.present_project.core.abstractions.AbstractModelMapper;
+import com.sultanov.present_project.core.actions.LocationActions;
 import com.sultanov.present_project.features.regions.actions.CreateRegionAction;
 import com.sultanov.present_project.features.regions.dto.RegionIndexResource;
 import com.sultanov.present_project.features.regions.dto.RegionShowResource;
 import com.sultanov.present_project.features.regions.dto.RegionStoreResource;
 import com.sultanov.present_project.features.regions.models.Region;
-import com.sultanov.present_project.features.regions.requests.RegionCreateRequest;
-import com.sultanov.present_project.core.actions.LocationActions;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RegionMapper extends AbstractModelMapper<Region> {
-
+public class RegionMapper extends AbstractModelMapper<Region, AbstractDTO<Region>> {
     private final CreateRegionAction createRegionAction;
     private final LocationActions locationActions;
 
@@ -53,9 +52,5 @@ public class RegionMapper extends AbstractModelMapper<Region> {
                 entity.getCreatedAt(),
                 entity.getUpdatedAt()
         );
-    }
-
-    public Region prepareToSave(RegionCreateRequest request) {
-        return createRegionAction.handle(request);
     }
 }

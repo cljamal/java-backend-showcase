@@ -6,9 +6,9 @@ import com.sultanov.present_project.features.regions.models.Region;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Generated;
 
 @Entity
 @Table(name = "users")

@@ -19,6 +19,10 @@ public class City extends AbstractModel {
     private String slug;
     @Column(name = "is_active")
     private Boolean isActive;
+    @Column(name = "is_default")
+    private Boolean isDefault;
+    @Column(name = "sort_order")
+    private Integer sortOrder;
 
     @OneToMany(mappedBy = "city")
     private List<Region> regions;

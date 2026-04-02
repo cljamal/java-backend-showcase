@@ -6,6 +6,7 @@ import com.sultanov.present_project.core.actions.rest_actions.IndexAction;
 import com.sultanov.present_project.core.actions.rest_actions.ShowAction;
 import com.sultanov.present_project.core.exceptions.ResourceNotFoundException;
 import com.sultanov.present_project.core.utils.PageResource;
+import com.sultanov.present_project.features.cities.actions.CreateCityAction;
 import com.sultanov.present_project.features.cities.dto.CityIndexResource;
 import com.sultanov.present_project.features.cities.dto.CityShowResource;
 import com.sultanov.present_project.features.cities.dto.CityStoreResource;
@@ -20,47 +21,54 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/cities")
-public class CityController extends AbstractController <
+public class CityController extends AbstractController<
         City,
         CityRepository,
         CityMapper
-    >
-{
-    public CityController(CityRepository repository, CityMapper mapper) {
+        > {
+    private final IndexAction<City, CityIndexResource> indexAction;
+    private final ShowAction<City, CityShowResource> showAction;
+    private final CreateAction<City, CityCreateRequest, CityStoreResource> createAction;
+    private final CreateCityAction createCityAction;
+
+
+    public CityController(
+            CityRepository repository,
+            CityMapper mapper,
+            IndexAction<City, CityIndexResource> IndexAction,
+            ShowAction<City, CityShowResource> showAction,
+            CreateAction<City, CityCreateRequest, CityStoreResource> createAction,
+            CreateCityAction createCityAction
+    ) {
         super(repository, mapper);
+
+        this.indexAction = IndexAction;
+        this.showAction = showAction;
+        this.createAction = createAction;
+        this.createCityAction = createCityAction;
     }
 
     @GetMapping
-    public PageResource<CityIndexResource> index(
-            Pageable pageable,
-            IndexAction<City, CityIndexResource> action
-    ) {
-        return action.handle(
-                repository,
-                pageable,
-                mapper::toIndex
-        );
+    public PageResource<CityIndexResource> index(Pageable pageable) {
+        return indexAction
+                .handle(repository, pageable, mapper::toIndex);
     }
 
     @GetMapping("/{id}")
-    public Map<String, CityShowResource> show(
-            @PathVariable Long id,
-            ShowAction<City, CityShowResource> action
-    ) {
-        return action.handle(repository, id, mapper::toShow)
+    public Map<String, CityShowResource> show(@PathVariable Long id) {
+        return showAction
+                .handle(repository, id, mapper::toShow)
                 .orElseThrow(() -> new ResourceNotFoundException("City not found"));
     }
 
     @PostMapping
-    public CityStoreResource store(
-            @Valid @RequestBody CityCreateRequest request,
-            CreateAction<City, CityCreateRequest, CityStoreResource> action
-    ) {
-        return action.handle(
-                repository,
-                request,
-                mapper::prepareToSave,
-                mapper::toStored
-        );
+    public CityStoreResource store(@Valid @RequestBody CityCreateRequest request) {
+        return createAction
+                .handle(
+                        repository,
+                        request,
+                        createCityAction::handle,
+                        mapper::toStored
+                );
     }
 }

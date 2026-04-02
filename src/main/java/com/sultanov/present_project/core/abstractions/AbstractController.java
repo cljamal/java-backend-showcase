@@ -4,7 +4,7 @@ package com.sultanov.present_project.core.abstractions;
 public abstract class AbstractController <
         E extends AbstractModel,
         Repository extends AbstractRepository<E>,
-        Mapper extends AbstractModelMapper<E>
+        Mapper extends AbstractModelMapper<E, AbstractDTO<E>>
     > {
 
     protected Repository repository;

@@ -1,17 +1,17 @@
 package com.sultanov.present_project.features.cities.mappers;
 
+import com.sultanov.present_project.core.abstractions.AbstractDTO;
 import com.sultanov.present_project.core.abstractions.AbstractModelMapper;
+import com.sultanov.present_project.core.actions.LocationActions;
 import com.sultanov.present_project.features.cities.actions.CreateCityAction;
 import com.sultanov.present_project.features.cities.dto.CityIndexResource;
 import com.sultanov.present_project.features.cities.dto.CityShowResource;
 import com.sultanov.present_project.features.cities.dto.CityStoreResource;
 import com.sultanov.present_project.features.cities.models.City;
-import com.sultanov.present_project.features.cities.requests.CityCreateRequest;
-import com.sultanov.present_project.core.actions.LocationActions;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CityMapper extends AbstractModelMapper<City> {
+public class CityMapper extends AbstractModelMapper<City, AbstractDTO<City>> {
 
     private final CreateCityAction createCityAction;
     private final LocationActions locationActions;
@@ -53,9 +53,5 @@ public class CityMapper extends AbstractModelMapper<City> {
                 entity.getCreatedAt(),
                 entity.getUpdatedAt()
         );
-    }
-
-    public City prepareToSave(CityCreateRequest request) {
-        return createCityAction.handle(request);
     }
 }

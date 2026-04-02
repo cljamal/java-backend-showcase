@@ -1,10 +1,12 @@
 package com.sultanov.present_project.features.cities.requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 public record CityCreateRequest(
+        @NotBlank(message = "Name is required")
         @Size(min = 3, max = 50)
         String name,
 
@@ -12,8 +14,11 @@ public record CityCreateRequest(
         String slug,
 
         @JsonProperty("is_active")
-        Boolean is_active,
+        Boolean isActive,
 
-        @JsonProperty("created_at") LocalDateTime createdAt,
-        @JsonProperty("updated_at") LocalDateTime updatedAt
+        @JsonProperty("sort_order")
+        Integer sortOrder,
+
+        @JsonProperty("is_default")
+        Boolean isDefault
 ){};

@@ -7,9 +7,9 @@ public record PageResource<T>(
         PaginationMeta meta
 ) {
     public record PaginationMeta(
-            int current_page,
-            int last_page,
-            int per_page,
+            int currentPage,
+            int lastPage,
+            int perPage,
             long total
     ) {}
 }

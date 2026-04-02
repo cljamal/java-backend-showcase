@@ -21,9 +21,6 @@ public record CreateUserAction(
         locationActions.validateRegion(request.region_id());
         locationActions.validateCity(request.city_id());
 
-        if (request.password() == null) {
-            throw new IllegalArgumentException("Password is required");
-        }
         String password = passwordActions.encode(request.password());
 
         if (request.username() != null && repository.existsByUsername(request.username())) {
@@ -62,7 +59,7 @@ public record CreateUserAction(
     private String normalizePhone(String phone) {
         if (phone == null) {
             throw new ValidationException("Phone is required");
-        };
+        }
 
         if (phone.matches("^9\\d{8}$")) {
             phone = "+998" + phone;

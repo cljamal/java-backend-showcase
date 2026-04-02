@@ -1,10 +1,13 @@
 package com.sultanov.present_project.features.regions.requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 public record RegionCreateRequest(
+        @NotBlank(message = "Name is required")
         @Size(min = 3, max = 50)
         String name,
 
@@ -12,8 +15,9 @@ public record RegionCreateRequest(
         String slug,
 
         @JsonProperty("is_active")
-        Boolean is_active,
+        Boolean isActive,
 
-        @JsonProperty("created_at") LocalDateTime createdAt,
-        @JsonProperty("updated_at") LocalDateTime updatedAt
+        @NotNull(message = "City is required")
+        @JsonProperty("city_id")
+        Long cityId
 ){};

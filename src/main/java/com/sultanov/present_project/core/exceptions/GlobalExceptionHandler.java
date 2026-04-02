@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
                 "message", ex.getReason() != null ? ex.getReason() : "Validation error"
         );
 
-        return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(body, ex.getStatusCode());
     }
 
     @ExceptionHandler(Exception.class)
