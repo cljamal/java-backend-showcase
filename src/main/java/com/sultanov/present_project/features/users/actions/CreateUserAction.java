@@ -18,8 +18,8 @@ public record CreateUserAction(
 
     public User handle(UserCreateRequest request) {
 
-        locationActions.validateRegion(request.region_id());
-        locationActions.validateCity(request.city_id());
+        locationActions.validateRegion(request.regionId());
+        locationActions.validateCity(request.cityId());
 
         String password = passwordActions.encode(request.password());
 
@@ -34,20 +34,20 @@ public record CreateUserAction(
 
         User model = new User();
 
-        if (request.region_id() != null) {
-            Region region = locationActions.getRegionById(request.region_id());
+        if (request.regionId() != null) {
+            Region region = locationActions.getRegionById(request.regionId());
             model.setRegion(region);
-            if (request.city_id() == null) {
+            if (request.cityId() == null) {
                 model.setCity(region.getCity());
             }
         }
 
-        if (request.city_id() != null) {
-            model.setCity(locationActions.getCityById(request.city_id()));
+        if (request.cityId() != null) {
+            model.setCity(locationActions.getCityById(request.cityId()));
         }
 
         model.setUsername(request.username());
-        model.setPhone(request.phone());
+        model.setPhone(phone);
         model.setPassword(password);
         model.setFirstName(request.firstName());
         model.setLastName(request.lastName());

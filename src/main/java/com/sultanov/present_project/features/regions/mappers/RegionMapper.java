@@ -3,7 +3,6 @@ package com.sultanov.present_project.features.regions.mappers;
 import com.sultanov.present_project.core.abstractions.AbstractDTO;
 import com.sultanov.present_project.core.abstractions.AbstractModelMapper;
 import com.sultanov.present_project.core.actions.LocationActions;
-import com.sultanov.present_project.features.regions.actions.CreateRegionAction;
 import com.sultanov.present_project.features.regions.dto.RegionIndexResource;
 import com.sultanov.present_project.features.regions.dto.RegionShowResource;
 import com.sultanov.present_project.features.regions.dto.RegionStoreResource;
@@ -12,11 +11,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class RegionMapper extends AbstractModelMapper<Region, AbstractDTO<Region>> {
-    private final CreateRegionAction createRegionAction;
     private final LocationActions locationActions;
 
-    public RegionMapper(CreateRegionAction createRegionAction, LocationActions locationActions) {
-        this.createRegionAction = createRegionAction;
+    public RegionMapper(LocationActions locationActions) {
         this.locationActions = locationActions;
     }
 

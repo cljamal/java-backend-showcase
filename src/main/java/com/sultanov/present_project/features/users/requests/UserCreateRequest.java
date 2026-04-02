@@ -1,6 +1,5 @@
 package com.sultanov.present_project.features.users.requests;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -16,13 +15,11 @@ public record UserCreateRequest (
 
         String about,
 
-        @JsonProperty("first_name")
         String firstName,
 
-        @JsonProperty("last_name")
         String lastName,
 
-        Long region_id,
+        Long regionId,
 
-        Long city_id
+        Long cityId
 ){};

@@ -9,6 +9,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Generated;
+import org.hibernate.generator.EventType;
 
 @Entity
 @Table(name = "users")
@@ -36,7 +37,7 @@ public class User extends AbstractModel {
 
     @Nullable
     @Setter(AccessLevel.NONE)
-    @Generated
+    @Generated(event = {EventType.INSERT, EventType.UPDATE})
     @Column(name = "full_name", insertable = false, updatable = false)
     private String fullName;
 

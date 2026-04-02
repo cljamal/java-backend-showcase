@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 @Component
 public record CreateRegionAction(RegionRepository repository, CityRepository cityRepository) {
 
+    private static final Slugify SLUGIFY = Slugify.builder().build();
+
     public Region handle(RegionCreateRequest request) {
         if (!cityRepository.existsById(request.cityId())) {
             throw new ValidationException("City not found");
@@ -18,7 +20,7 @@ public record CreateRegionAction(RegionRepository repository, CityRepository cit
 
         String slug = request.slug() != null
                 ? request.slug()
-                : Slugify.builder().build().slugify(request.name());
+                : SLUGIFY.slugify(request.name());
 
         Region model = new Region();
         model.setName(request.name());

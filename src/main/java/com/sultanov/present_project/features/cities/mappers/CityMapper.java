@@ -3,7 +3,6 @@ package com.sultanov.present_project.features.cities.mappers;
 import com.sultanov.present_project.core.abstractions.AbstractDTO;
 import com.sultanov.present_project.core.abstractions.AbstractModelMapper;
 import com.sultanov.present_project.core.actions.LocationActions;
-import com.sultanov.present_project.features.cities.actions.CreateCityAction;
 import com.sultanov.present_project.features.cities.dto.CityIndexResource;
 import com.sultanov.present_project.features.cities.dto.CityShowResource;
 import com.sultanov.present_project.features.cities.dto.CityStoreResource;
@@ -13,11 +12,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class CityMapper extends AbstractModelMapper<City, AbstractDTO<City>> {
 
-    private final CreateCityAction createCityAction;
     private final LocationActions locationActions;
 
-    public CityMapper(CreateCityAction createCityAction, LocationActions locationActions) {
-        this.createCityAction = createCityAction;
+    public CityMapper(LocationActions locationActions) {
         this.locationActions = locationActions;
     }
 

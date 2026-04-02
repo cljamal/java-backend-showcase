@@ -10,6 +10,6 @@ public record RegionShowResource(
         String name,
         String slug,
         Boolean is_active,
-        @JsonProperty("created_at") LocalDateTime createdAt,
-        @JsonProperty("updated_at") LocalDateTime updatedAt
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt
 ) implements AbstractDTO<Region> {}

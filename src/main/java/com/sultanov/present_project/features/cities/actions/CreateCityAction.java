@@ -8,10 +8,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public record CreateCityAction(CityRepository repository) {
+
+    private static final Slugify SLUGIFY = Slugify.builder().build();
+
     public City handle(CityCreateRequest request) {
         String slug = request.slug() != null
                 ? request.slug()
-                : Slugify.builder().build().slugify(request.name());
+                : SLUGIFY.slugify(request.name());
 
         boolean isDefault = request.isDefault() != null ? request.isDefault() : false;
         if (isDefault) {

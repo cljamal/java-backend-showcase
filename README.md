@@ -25,7 +25,7 @@ src/main/java/com/sultanov/present_project/
 │   │   ├── LocationActions.java
 │   │   └── PasswordActions.java
 │   ├── exceptions/       # Global exception handling
-│   └── utils/            # JsonResponse, PageResource
+│   └── utils/            # PageResource
 └── features/
     ├── users/            # User management feature
     ├── cities/           # City management feature
@@ -40,7 +40,7 @@ src/main/java/com/sultanov/present_project/
 | `AbstractDTO<E>` | Type-safe DTO marker interface |
 | `AbstractRepository<E>` | Generic JPA repository |
 | `AbstractController<E, R, M>` | Generic REST controller |
-| `AbstractModelMapper<E, R>` | Base entity-to-DTO mapper |
+| `AbstractModelMapper<E, DTO>` | Base entity-to-DTO mapper with abstract `toIndex`, `toShow`, `toStored` |
 
 ### Action Pattern
 
@@ -148,7 +148,7 @@ User ──ManyToOne──▶ Region ──ManyToOne──▶ City
 User ──ManyToOne──▶ City
 ```
 
-- **City** — `name`, `slug`, `is_active`
+- **City** — `name`, `slug`, `is_active`, `is_default`, `sort_order`
 - **Region** — `name`, `slug`, `is_active`, belongs to a City
 - **User** — `username`, `phone`, `password`, `firstName`, `lastName`, `about`, belongs to a Region and City
 

@@ -3,7 +3,6 @@ package com.sultanov.present_project.features.users.mappers;
 import com.sultanov.present_project.core.abstractions.AbstractDTO;
 import com.sultanov.present_project.core.abstractions.AbstractModelMapper;
 import com.sultanov.present_project.core.actions.LocationActions;
-import com.sultanov.present_project.features.users.actions.CreateUserAction;
 import com.sultanov.present_project.features.users.dto.UserIndexResource;
 import com.sultanov.present_project.features.users.dto.UserShowResource;
 import com.sultanov.present_project.features.users.dto.UserStoreResource;
@@ -13,11 +12,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserMapper extends AbstractModelMapper<User, AbstractDTO<User>> {
 
-    private final CreateUserAction createUserAction;
     private final LocationActions locationActions;
 
-    public UserMapper(CreateUserAction createUserAction, LocationActions locationActions) {
-        this.createUserAction = createUserAction;
+    public UserMapper(LocationActions locationActions) {
         this.locationActions = locationActions;
     }
 

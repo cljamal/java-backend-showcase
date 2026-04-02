@@ -1,6 +1,5 @@
 package com.sultanov.present_project.features.users.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.sultanov.present_project.core.abstractions.AbstractDTO;
 import com.sultanov.present_project.features.cities.dto.CityIndexResource;
@@ -17,6 +16,6 @@ public record UserIndexResource(
         String about,
         CityIndexResource.CitySummary city,
         RegionIndexResource.RegionSummary region,
-        @JsonProperty("created_at") LocalDateTime createdAt,
-        @JsonProperty("updated_at") LocalDateTime updatedAt
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt
 ) implements AbstractDTO<User> {}
