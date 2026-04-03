@@ -2,9 +2,13 @@ package com.sultanov.present_project.features.users.models;
 
 import com.sultanov.present_project.core.abstractions.AbstractModel;
 import com.sultanov.present_project.features.cities.models.City;
+import com.sultanov.present_project.features.rbac.models.Permission;
+import com.sultanov.present_project.features.rbac.models.Role;
 import com.sultanov.present_project.features.regions.models.Region;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -48,4 +52,50 @@ public class User extends AbstractModel {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id", nullable = true)
     private City city;
+
+    @ManyToMany
+    @JoinTable(
+            name = "model_has_roles",
+            joinColumns = @JoinColumn(name = "model_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles;
+
+    @ManyToMany
+    @JoinTable(
+            name = "model_has_permissions",
+            joinColumns = @JoinColumn(name = "model_id"),
+            inverseJoinColumns = @JoinColumn(name = "permission_id")
+    )
+    private Set<Permission> permissions;
+
+
+    public Set<Permission> getAllPermissions() {
+        Set<Permission> all = new HashSet<>(permissions != null ? permissions : Set.of());
+
+        if (roles != null) {
+            for (Role role : roles) {
+                if (role.getPermissions() != null) {
+                    all.addAll(role.getPermissions());
+                }
+            }
+        }
+
+        return all;
+    }
+
+    public boolean hasPermission(String slug) {
+        return getAllPermissions().stream()
+                .anyMatch(p -> p.getSlug().equals(slug));
+    }
+
+    public boolean hasRole(String slug) {
+        return roles != null && roles.stream()
+                .anyMatch(r -> r.getSlug().equals(slug));
+    }
+
+    public boolean can(String slug) {
+        return hasRole(slug) || hasPermission(slug);
+    }
+
 }
