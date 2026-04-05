@@ -10,7 +10,7 @@ public record CityIndexResource(
         Long id,
         String name,
         String slug,
-        Boolean isActive,
+        Boolean isDefault,
         List<RegionIndexResource.RegionSummary> regions,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
@@ -18,7 +18,18 @@ public record CityIndexResource(
     public record CitySummary(
             Long id,
             String name,
-            String slug,
-            Boolean isActive
+            String slug
     ) {}
+
+    public CityIndexResource(City city, List<RegionIndexResource.RegionSummary> regions){
+        this(
+                city.getId(),
+                city.getName(),
+                city.getSlug(),
+                city.getIsDefault(),
+                regions,
+                city.getCreatedAt(),
+                city.getUpdatedAt()
+        );
+    }
 }

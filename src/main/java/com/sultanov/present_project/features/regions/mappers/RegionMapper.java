@@ -22,7 +22,6 @@ public class RegionMapper extends AbstractModelMapper<Region, AbstractDTO<Region
                 entity.getId(),
                 entity.getName(),
                 entity.getSlug(),
-                entity.getIsActive(),
                 locationActions.getCitySummary(entity.getCity()),
                 entity.getCreatedAt(),
                 entity.getUpdatedAt()

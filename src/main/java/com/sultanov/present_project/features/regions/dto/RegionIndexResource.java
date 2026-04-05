@@ -9,7 +9,6 @@ public record RegionIndexResource(
         Long id,
         String name,
         String slug,
-        Boolean isActive,
         CityIndexResource.CitySummary city,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
@@ -17,7 +16,6 @@ public record RegionIndexResource(
     public record RegionSummary(
             Long id,
             String name,
-            String slug,
-            Boolean isActive
+            String slug
     ) {}
 }

@@ -73,10 +73,7 @@ public class RestAuthController {
 
     @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/logout")
-    public ResponseEntity<@NonNull Map<String, Object>> logout(
-            @AuthenticationPrincipal User user,
-            HttpServletRequest httpRequest
-    ) {
+    public ResponseEntity<@NonNull Map<String, Object>> logout(HttpServletRequest httpRequest) {
         sessionAction.logout(httpRequest);
 
         return response.json(

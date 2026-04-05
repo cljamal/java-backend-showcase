@@ -18,7 +18,7 @@ public record AuthUserResource(
     public AuthUserResource(User user) {
         this(
                 user.getId(),
-                user.getUsername(),
+                user.getNickname(),
                 user.getPhone(),
                 user.getFullName(),
                 user.getAbout(),

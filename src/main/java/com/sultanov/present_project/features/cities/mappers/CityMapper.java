@@ -19,15 +19,7 @@ public class CityMapper extends AbstractModelMapper<City, AbstractDTO<City>> {
     }
 
     public CityIndexResource toIndex(City entity) {
-        return new CityIndexResource(
-                entity.getId(),
-                entity.getName(),
-                entity.getSlug(),
-                entity.getIsActive(),
-                locationActions.getRegionSummaries(entity),
-                entity.getCreatedAt(),
-                entity.getUpdatedAt()
-        );
+        return new CityIndexResource(entity, locationActions.getRegionSummaries(entity));
     }
 
     public CityShowResource toShow(City entity) {

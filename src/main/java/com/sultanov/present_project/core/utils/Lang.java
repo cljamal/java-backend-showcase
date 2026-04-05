@@ -54,4 +54,8 @@ public class Lang {
                         locale
                 );
     }
+
+    public String textOrDefault(String key, String defaultMessage) {
+        return messageSource.getMessage(key, null, defaultMessage, locale());
+    }
 }

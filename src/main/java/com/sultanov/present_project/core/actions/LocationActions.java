@@ -50,7 +50,7 @@ public class LocationActions {
             return null;
         }
 
-        return new CityIndexResource.CitySummary(city.getId(), city.getName(), city.getSlug(), city.getIsActive());
+        return new CityIndexResource.CitySummary(city.getId(), city.getName(), city.getSlug());
     }
 
     public RegionIndexResource.RegionSummary getRegionSummary(@Nullable Region region) {
@@ -58,7 +58,7 @@ public class LocationActions {
             return null;
         }
 
-        return new RegionIndexResource.RegionSummary(region.getId(), region.getName(), region.getSlug(), region.getIsActive());
+        return new RegionIndexResource.RegionSummary(region.getId(), region.getName(), region.getSlug());
     }
 
     public List<RegionIndexResource.RegionSummary>
@@ -68,8 +68,7 @@ public class LocationActions {
         return city.getRegions().stream()
                 .filter(Region::getIsActive)
                 .map(region -> new RegionIndexResource.RegionSummary(
-                        region.getId(), region.getName(), region.getSlug(),
-                        true
+                        region.getId(), region.getName(), region.getSlug()
                 ))
                 .toList();
     }
