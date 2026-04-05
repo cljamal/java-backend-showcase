@@ -1,10 +1,11 @@
-package com.sultanov.present_project.features.rbac;
+package com.sultanov.present_project.adapters.rest;
 
-import com.sultanov.present_project.core.abstractions.AbstractController;
 import com.sultanov.present_project.core.actions.rest_actions.CreateAction;
 import com.sultanov.present_project.core.actions.rest_actions.IndexAction;
 import com.sultanov.present_project.core.actions.rest_actions.ShowAction;
 import com.sultanov.present_project.core.exceptions.ResourceNotFoundException;
+import com.sultanov.present_project.core.rest.RestJsonResponse;
+import com.sultanov.present_project.core.utils.Lang;
 import com.sultanov.present_project.core.utils.PageResource;
 import com.sultanov.present_project.features.rbac.actions.CreateRoleAction;
 import com.sultanov.present_project.features.rbac.dto.RoleIndexResource;
@@ -16,43 +17,45 @@ import com.sultanov.present_project.features.rbac.repositories.RoleRepository;
 import com.sultanov.present_project.features.rbac.requests.RoleCreateRequest;
 import jakarta.validation.Valid;
 import java.util.Map;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/roles")
-public class RoleController extends AbstractController<Role, RoleRepository, RoleMapper> {
+@RequiredArgsConstructor
+public class RestRoleController {
 
-    private final IndexAction<Role, RoleIndexResource> indexAction;
-    private final ShowAction<Role, RoleShowResource> showAction;
+    private final Lang lang;
+
+    private final RoleRepository repository;
+    private final RoleMapper mapper;
+    private final RestJsonResponse response;
+    private final IndexAction indexAction;
+    private final ShowAction showAction;
     private final CreateAction<Role, RoleCreateRequest, RoleStoreResource> createAction;
     private final CreateRoleAction createRoleAction;
 
-    public RoleController(
-            RoleRepository repository,
-            RoleMapper mapper,
-            IndexAction<Role, RoleIndexResource> indexAction,
-            ShowAction<Role, RoleShowResource> showAction,
-            CreateAction<Role, RoleCreateRequest, RoleStoreResource> createAction,
-            CreateRoleAction createRoleAction
-    ) {
-        super(repository, mapper);
-        this.indexAction = indexAction;
-        this.showAction = showAction;
-        this.createAction = createAction;
-        this.createRoleAction = createRoleAction;
-    }
-
     @GetMapping
     public PageResource<RoleIndexResource> index(Pageable pageable) {
-        return indexAction.handle(repository, pageable, mapper::toIndex);
+        return indexAction.handle(
+                () -> repository.findAll(pageable),
+                mapper::toIndex
+        );
     }
 
     @GetMapping("/{id}")
-    public Map<String, RoleShowResource> show(@PathVariable Long id) {
-        return showAction
-                .handle(repository, id, mapper::toShow)
-                .orElseThrow(() -> new ResourceNotFoundException("Role not found"));
+    public ResponseEntity<@NonNull Map<String, Object>> show(@PathVariable Long id) {
+        RoleShowResource resource = showAction
+                .handle(
+                        () -> repository.findById(id),
+                        mapper::toShow
+                )
+                .orElseThrow(() -> new ResourceNotFoundException(lang.args("validation.not_found", "Role")));
+
+        return response.json(Map.of("data", resource));
     }
 
     @PostMapping

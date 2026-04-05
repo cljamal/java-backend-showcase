@@ -1,24 +1,23 @@
 package com.sultanov.present_project.core.actions.rest_actions;
 
 import com.sultanov.present_project.core.utils.PageResource;
+import java.util.List;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import lombok.NonNull;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.function.Function;
 
 @Service
-public class IndexAction<E, Res> {
+public class IndexAction {
     @Transactional(readOnly = true)
-    public PageResource<Res> handle(
-            JpaRepository<E, Long> repository,
-            Pageable pageable,
-            Function<E, Res> toResource
+    public <Entity, Res> PageResource<Res> handle(
+            Supplier<Page<@NonNull Entity>> query,
+            Function<Entity, Res> toResource
     ) {
-        Page<E> page = repository.findAll(pageable);
+        Page<@NonNull Entity> page = query.get();
 
         List<Res> content = page.getContent().stream()
                 .map(toResource)

@@ -20,40 +20,21 @@ public class UserMapper extends AbstractModelMapper<User, AbstractDTO<User>> {
 
     public UserIndexResource toIndex(User entity) {
         return new UserIndexResource(
-                entity.getId(),
-                entity.getUsername(),
-                entity.getPhone(),
-                entity.getFullName(),
-                entity.getAbout(),
+                entity,
                 locationActions.getCitySummary(entity.getCity()),
-                locationActions.getRegionSummary(entity.getRegion()),
-                entity.getCreatedAt(),
-                entity.getUpdatedAt()
+                locationActions.getRegionSummary(entity.getRegion())
         );
     }
 
     public UserShowResource toShow(User entity) {
         return new UserShowResource(
-                entity.getId(),
-                entity.getUsername(),
-                entity.getPhone(),
-                entity.getFullName(),
-                entity.getAbout(),
+                entity,
                 locationActions.getCitySummary(entity.getCity()),
-                locationActions.getRegionSummary(entity.getRegion()),
-                entity.getCreatedAt(),
-                entity.getUpdatedAt()
+                locationActions.getRegionSummary(entity.getRegion())
         );
     }
 
     public UserStoreResource toStored(User entity) {
-        return new UserStoreResource(
-                entity.getId(),
-                entity.getUsername(),
-                entity.getPhone(),
-                entity.getAbout(),
-                entity.getCreatedAt(),
-                entity.getUpdatedAt()
-        );
+        return new UserStoreResource(entity);
     }
 }

@@ -12,10 +12,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
-public record UserPermissionAttachDetachAction(
-        UserRepository userRepository,
-        PermissionRepository permissionRepository
-) {
+public class UserPermissionAttachDetachAction {
+
+    private final UserRepository userRepository;
+    private final PermissionRepository permissionRepository;
+
+    public UserPermissionAttachDetachAction(UserRepository userRepository, PermissionRepository
+            permissionRepository) {
+        this.userRepository = userRepository;
+        this.permissionRepository = permissionRepository;
+    }
 
     @Transactional
     public User syncPermissions(Long userId, AttachPermissionRequest request) {

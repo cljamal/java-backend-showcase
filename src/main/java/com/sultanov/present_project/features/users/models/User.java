@@ -7,19 +7,25 @@ import com.sultanov.present_project.features.rbac.models.Role;
 import com.sultanov.present_project.features.regions.models.Region;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import org.hibernate.annotations.Generated;
 import org.hibernate.generator.EventType;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "users")
 @Getter
 @Setter
-public class User extends AbstractModel {
+public class User extends AbstractModel implements UserDetails {
     private String password;
 
     @Nullable
@@ -46,11 +52,11 @@ public class User extends AbstractModel {
     private String fullName;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "region_id", nullable = true)
+    @JoinColumn(name = "region_id")
     private Region region;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "city_id", nullable = true)
+    @JoinColumn(name = "city_id")
     private City city;
 
     @ManyToMany
@@ -98,4 +104,55 @@ public class User extends AbstractModel {
         return hasRole(slug) || hasPermission(slug);
     }
 
+    @Override
+    @NonNull
+    public Collection<? extends GrantedAuthority> getAuthorities()
+    {
+        Set<GrantedAuthority> authorities = getAllPermissions().stream()
+                .map(p -> new SimpleGrantedAuthority(p.getSlug()))
+                .collect(Collectors.toSet());
+
+        if (roles != null) {
+            roles.forEach(role ->
+                    authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getSlug()))
+            );
+        }
+        return authorities;
+    }
+
+    @Override
+    @NonNull
+    public String getUsername() {
+        return this.phone != null ? this.phone : "";
+    }
+
+    public String getNickname() {
+        return this.username != null ? this.username : "";
+    }
+
+    @Override
+    @NonNull
+    public String getPassword() {
+        return this.password != null ? this.password : "";
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

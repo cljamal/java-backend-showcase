@@ -8,22 +8,22 @@ import com.sultanov.present_project.features.users.models.User;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserMapper extends AbstractModelMapper<User, AbstractDTO<User>> {
+public class AdminUserMapper extends AbstractModelMapper<User, AbstractDTO<User>> {
 
     private final LocationActions locationActions;
 
-    public UserMapper(LocationActions locationActions) {
+    public AdminUserMapper(LocationActions locationActions) {
         this.locationActions = locationActions;
     }
 
     @Override
-    protected AbstractDTO<User> toIndex(User entity) {
-        return null;
+    public AbstractDTO<User> toIndex(User entity) {
+        throw new UnsupportedOperationException("Not used in admin context");
     }
 
     @Override
-    protected AbstractDTO<User> toShow(User entity) {
-        return null;
+    public AbstractDTO<User> toShow(User entity) {
+        throw new UnsupportedOperationException("Not used in admin context");
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.sultanov.present_project.admin.users;
 
 import com.sultanov.present_project.admin.users.actions.UserPermissionAttachDetachAction;
 import com.sultanov.present_project.admin.users.dto.UserUpdateRolesPermissionsResource;
-import com.sultanov.present_project.admin.users.mappers.UserMapper;
+import com.sultanov.present_project.admin.users.mappers.AdminUserMapper;
 import com.sultanov.present_project.admin.users.requests.AttachPermissionRequest;
 import com.sultanov.present_project.core.abstractions.AbstractController;
 import com.sultanov.present_project.features.users.models.User;
@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/admin/users/{id}/permissions")
-public class PermissionController extends AbstractController<User, UserRepository, UserMapper> {
+public class AdminPermissionController extends AbstractController<User, UserRepository, AdminUserMapper> {
 
     private final UserPermissionAttachDetachAction attachDetachAction;
 
-    public PermissionController(
+    public AdminPermissionController(
             UserRepository repository,
-            UserMapper mapper,
+            AdminUserMapper mapper,
             UserPermissionAttachDetachAction attachDetachAction
     ) {
         super(repository, mapper);

@@ -12,10 +12,19 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
-public record UserRoleAttachDetachAction(
-        UserRepository userRepository,
-        RoleRepository roleRepository
-) {
+public class UserRoleAttachDetachAction {
+
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+
+    public UserRoleAttachDetachAction(
+            UserRepository userRepository,
+            RoleRepository roleRepository
+    ) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+    }
+
 
     @Transactional
     public User syncRoles(Long userId, AttachRolesRequest request) {
@@ -29,5 +38,4 @@ public record UserRoleAttachDetachAction(
 
         return userRepository.save(user);
     }
-
 }
