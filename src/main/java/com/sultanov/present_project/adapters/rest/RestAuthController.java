@@ -2,6 +2,7 @@ package com.sultanov.present_project.adapters.rest;
 
 import com.sultanov.present_project.core.rest.RestJsonResponse;
 import com.sultanov.present_project.core.utils.Lang;
+import com.sultanov.present_project.features.auth.actions.AuthUserResourceAction;
 import com.sultanov.present_project.features.auth.actions.CreateSessionAction;
 import com.sultanov.present_project.features.auth.actions.SendOtpAction;
 import com.sultanov.present_project.features.auth.actions.SessionAction;
@@ -12,10 +13,11 @@ import com.sultanov.present_project.features.auth.requests.VerifyOtpRequest;
 import com.sultanov.present_project.features.users.models.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import java.security.SecureRandom;
 import java.util.Map;
-import java.util.Random;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -32,10 +34,18 @@ public class RestAuthController {
     private final RestJsonResponse response;
     private final CreateSessionAction createSessionAction;
     private final SessionAction sessionAction;
+    private final AuthUserResourceAction authUserResourceAction;
+
+    @Value("${spring.application.mode:production}")
+    private String appMode;
 
     @PostMapping("/send-otp")
     public ResponseEntity<@NonNull Map<String, Object>> sendOtp(@Valid @RequestBody SendOtpRequest request) {
-        String otp = String.format("%04d", new Random().nextInt(10000));
+
+        String otp = "local".equals(appMode)
+                ? "1111"
+                : String.format("%04d", new SecureRandom().nextInt(10000));
+
         sendOtpAction.handle(request.phone(), otp);
         return response.json(lang.text("auth.otp.sent"));
     }
@@ -53,7 +63,7 @@ public class RestAuthController {
 
         return response.json(Map.of(
                 "data", Map.of(
-                        "user", new AuthUserResource(user),
+                        "user", authUserResourceAction.handle(user),
                         "token", token
                 ),
                 "status", lang.text("common.success")
@@ -65,7 +75,7 @@ public class RestAuthController {
     public ResponseEntity<@NonNull Map<String, Object>> me(@AuthenticationPrincipal User user) {
         return response.json(
                 Map.of(
-                        "data", new AuthUserResource(user),
+                        "data", authUserResourceAction.handle(user),
                         "status", lang.text("common.success")
                 )
         );

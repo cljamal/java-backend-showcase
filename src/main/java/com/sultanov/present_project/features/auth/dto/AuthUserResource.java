@@ -12,16 +12,20 @@ public record AuthUserResource(
         String phone,
         String fullName,
         String about,
+        String avatar_url,
+        String language,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) implements AbstractDTO<User> {
-    public AuthUserResource(User user) {
+    public AuthUserResource(User user, String avatarUrl) {
         this(
                 user.getId(),
                 user.getNickname(),
                 user.getPhone(),
                 user.getFullName(),
                 user.getAbout(),
+                avatarUrl,
+                user.getLanguage(),
                 user.getCreatedAt(),
                 user.getUpdatedAt()
         );

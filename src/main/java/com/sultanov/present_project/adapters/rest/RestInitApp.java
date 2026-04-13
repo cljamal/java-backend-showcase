@@ -2,13 +2,12 @@ package com.sultanov.present_project.adapters.rest;
 
 import com.sultanov.present_project.core.rest.RestJsonResponse;
 import com.sultanov.present_project.core.utils.Lang;
-import com.sultanov.present_project.features.auth.dto.AuthUserResource;
+import com.sultanov.present_project.features.auth.actions.AuthUserResourceAction;
 import com.sultanov.present_project.features.cities.dto.CityIndexResource;
 import com.sultanov.present_project.features.cities.mappers.CityMapper;
 import com.sultanov.present_project.features.cities.repositories.CityRepository;
 import com.sultanov.present_project.features.settings.models.Setting;
 import com.sultanov.present_project.features.settings.repositories.SettingRepository;
-import com.sultanov.present_project.features.users.dto.UserIndexResource;
 import com.sultanov.present_project.features.users.models.User;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -16,11 +15,11 @@ import java.util.Map;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import com.sultanov.present_project.features.auth.annotations.HasRole;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,6 +33,7 @@ public class RestInitApp {
     private final SettingRepository settings;
     private final CityRepository cityRepository;
     private final CityMapper cityMapper;
+    private final AuthUserResourceAction authUserResourceAction;
 
     @Value("${spring.application.name}")
     private String applicationName;
@@ -48,10 +48,12 @@ public class RestInitApp {
         if (maintenance.active()) {
             result.put("maintenance_mode", true);
             result.put("maintenance_reason", maintenance.reason());
+        }else{
+            result.put("maintenance_mode", false);
         }
 
         result.put("cities", citiesData());
-        result.put("user", user != null ? new AuthUserResource(user) : null);
+        result.put("user", user != null ? authUserResourceAction.handle(user) : null);
 
         return response.json(result);
     }
@@ -87,6 +89,13 @@ public class RestInitApp {
                 .orElse(lang.text("app.slogan.default")));
 
         return data;
+    }
+
+    @HasRole("admin")
+    @PostMapping("/cache/clear")
+    public ResponseEntity<@NonNull Map<String, Object>> clearCache() {
+        settings.clearCache();
+        return response.json(lang.text("common.success"));
     }
 
     private  List<CityIndexResource> citiesData() {

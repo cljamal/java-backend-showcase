@@ -42,6 +42,10 @@ public class User extends AbstractModel implements UserDetails {
     private String firstName;
 
     @Nullable
+    @Column(name = "language")
+    private String language;
+
+    @Nullable
     @Column(name = "last_name")
     private String lastName;
 

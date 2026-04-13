@@ -13,6 +13,8 @@ public interface UserRepository extends AbstractRepository<User>
 
     User findByPhone(String phone);
 
+    User findByUsername(String username);
+
     @EntityGraph(attributePaths = {"roles", "roles.permissions", "permissions"})
     Optional<User> findWithRolesAndPermissionsById(Long id);
 
